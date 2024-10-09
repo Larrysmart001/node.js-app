@@ -23,7 +23,7 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/service', (req, res) => {
-    res.send('welcome to Service page');
+    res.send('welcome to Service');
 });
 
 
