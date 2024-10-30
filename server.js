@@ -1,33 +1,33 @@
-const express = require('express');
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
+//Import User model
+const User = require("./models/userModel");
+
+//Initialize Express app
 const app = express();
-const port = 3000;
 
-const users = [
-    { id: 1, name: 'John Doe', age: 30 },
-    { id: 2, name: 'Jane Smith', age: 28 },
-    { id: 3, name: 'Bob Johnson', age: 35 },
-    { id: 4, name: 'Emily Davis', age: 25 }
-];
+//Use body-parser middleware to parse JSON data
+app.use(bodyParser.json());
 
+//MongoDB connection string
+const mongoURI =
+  "mongodb+srv://olanrewajufolami21:K4LVQvc6bMJOE9zv@cluster0.adtkd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+//olanrewajufolami21
+//K4LVQvc6bMJOE9zv
 
-app.get('/users', (req, res) => {
-    res.json(users);
-});
-
-app.get('/', (req, res) => {
-    res.send('welcome to our app!');
-});
-
-app.get('/about', (req, res) => {
-    res.send('welcome to About page');
-});
-
-app.get('/service', (req, res) => {
-    res.send('welcome to Service');
-});
+//connect to MongoDB
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("MongoDB connect success......"))
+  .catch((err) => console.error("error connecting to MongoDB...", err));
 
 
 
-app.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}`);
-});
+//import routes
+  const userRoutes = require('./routes/userRoutes');
+  app.use('/', userRoutes);
+
+const PORT = 5000;
+app.listen(PORT, () => console.log(`listening on port ${PORT}`));
